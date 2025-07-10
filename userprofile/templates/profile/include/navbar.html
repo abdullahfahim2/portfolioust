@@ -1,0 +1,154 @@
+<!-- navbar section -->
+<header class="bg-[#000000A0] fixed w-screen top-0 z-50">
+    <div class="container mx-auto">
+        <nav>
+            <div class="flex justify-around items-center px-4 py-6">
+                <!-- Logo -->
+                <div>
+                    <a href="#" class="text-white font-semibold text-xl group relative">
+                        <span>{{ profile.full_name }}</span>
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <!-- Nav items -->
+                    <div class="group relative">
+                        <a href="{% url 'home' %}" class="text-white hover:text-gray-300">
+                            <span>Home</span>
+                            <span
+                                class="absolute -top-6 left-0 w-full h-0.5 bg-white opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:top-0"></span>
+                        </a>
+                    </div>
+
+                    <div class="group relative">
+                        <a href="{% url 'home' %}#about" class="text-white hover:text-gray-300">
+                            <span>About</span>
+                            <span
+                                class="absolute -top-6 left-0 w-full h-0.5 bg-white opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:top-0"></span>
+                        </a>
+                    </div>
+
+                    <!-- Gallery Dropdown -->
+                    <div class="group relative">
+                        <button class="text-white hover:text-gray-300 flex items-center">
+                            <span>Gallery</span>
+                            <i
+                                class="fas fa-chevron-down ml-1 text-xs transition-transform duration-200 group-hover:rotate-180"></i>
+                            <span
+                                class="absolute -top-6 left-0 w-full h-0.5 bg-white opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:top-0"></span>
+                        </button>
+                        <div
+                            class="absolute left-0 mt-2 w-48 bg-[#000000CC] rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                            <a href="{% url 'image' %}" class="block px-4 py-2 text-white hover:bg-white/10">Image
+                                Gallery</a>
+                            <a href="{% url 'video' %}" class="block px-4 py-2 text-white hover:bg-white/10">Video
+                                Gallery</a>
+                        </div>
+                    </div>
+
+                    <div class="group relative">
+                        <a href="{% url 'home' %}#journey" class="text-white hover:text-gray-300">
+                            <span>Journey</span>
+                            <span
+                                class="absolute -top-6 left-0 w-full h-0.5 bg-white opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:top-0"></span>
+                        </a>
+                    </div>
+
+                    <div class="group relative">
+                        <a href="#achievements" class="text-white hover:text-gray-300">
+                            <span>Achievements</span>
+                            <span
+                                class="absolute -top-6 left-0 w-full h-0.5 bg-white opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:top-0"></span>
+                        </a>
+                    </div>
+
+                    <div class="group relative">
+                        <a href="{% url 'home' %}#current_role" class="text-white hover:text-gray-300">
+                            <span>Current Role</span>
+                            <span
+                                class="absolute -top-6 left-0 w-full h-0.5 bg-white opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:top-0"></span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-white focus:outline-none text-2xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu (hidden by default) -->
+            <div id="mobile-menu" class="hidden md:hidden bg-[#000000CC] w-full px-4 pb-4">
+                <div class="flex flex-col space-y-3 pt-3">
+                    <a href="{% url 'home' %}" class="text-white hover:underline hover:underline-offset-8 py-2">Home</a>
+                    <a href="{% url 'home' %}#about" class="text-white hover:underline hover:underline-offset-8 py-2">About</a>
+
+                    <!-- Mobile Gallery Dropdown -->
+                    <div x-data="{ open: false }" class="relative">
+                        <button @click="open = !open"
+                            class="text-white hover:underline hover:underline-offset-8 py-2 w-full text-left flex justify-between items-center">
+                            <span>Gallery</span>
+                            <i :class="{'transform rotate-180': open}"
+                                class="fas fa-chevron-down ml-1 text-xs transition-transform duration-200"></i>
+                        </button>
+                        <div x-show="open" class="pl-4 mt-2 space-y-2">
+                            <a href="{% url 'image' %}"
+                                class="block text-white hover:underline hover:underline-offset-8 py-1">Image
+                                Gallery</a>
+                            <a href="{% url 'video' %}"
+                                class="block text-white hover:underline hover:underline-offset-8 py-1">Video
+                                Gallery</a>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'home' %}#journey" class="text-white hover:underline hover:underline-offset-8 py-2">Journey</a>
+                    <a href="{% url 'home' %}#achievements"
+                        class="text-white hover:underline hover:underline-offset-8 py-2">Achievements</a>
+                    <a href="{% url 'home' %}#current_role" class="text-white hover:underline hover:underline-offset-8 py-2">Current
+                        Role</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+
+
+<!-- script for navbar phone responsive menu -->
+<script>
+    // Toggle mobile menu
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+        mobileMenu.classList.toggle('hidden');
+        this.setAttribute('aria-expanded', !isExpanded);
+
+        // Change icon when menu is open
+        const icon = this.querySelector('i');
+        if (mobileMenu.classList.contains('hidden')) {
+            icon.classList.replace('fa-times', 'fa-bars');
+        } else {
+            icon.classList.replace('fa-bars', 'fa-times');
+        }
+    });
+
+    // Close mobile menu when a link is clicked
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+        link.addEventListener('click', function () {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuToggle = document.getElementById('menu-toggle');
+
+            mobileMenu.classList.add('hidden');
+            menuToggle.setAttribute('aria-expanded', 'false');
+
+            // Reset icon to bars
+            const icon = menuToggle.querySelector('i');
+            icon.classList.replace('fa-times', 'fa-bars');
+        });
+    });
+</script>

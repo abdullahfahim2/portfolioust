@@ -1,0 +1,63 @@
+{% extends "profile/base.html" %}
+{% block title %} Blog Details {% endblock title %}
+
+{% block customcss %}
+<!-- style for texts -->
+<style>
+    .prose {
+        max-width: 65ch;
+    }
+
+    .prose a {
+        color: #3B82F6;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .prose a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock customcss %}
+
+
+{% block content %}
+<!-- Main Content -->
+<main class="container mx-auto px-4 py-8 md:py-12">
+    <article class="max-w-6xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+        <!-- Featured Image -->
+        <div class="w-full h-64 md:h-96 bg-gray-200 overflow-hidden">
+            <img src="{{ blog.featured_image.url }}" alt="{{ blog.title }}" class="w-full h-full object-cover">
+        </div>
+
+        <!-- Article Content -->
+        <div class="p-6 md:p-8 lg:p-10">
+            <!-- Meta Info -->
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden">
+                        <img src="{{ profile.profile_image.url }}" alt="{{ profile.full_name }}"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-900">{{ profile.full_name }}</p>
+                        <p class="text-sm text-gray-500">{{ profile.designation }}</p>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-500">
+                    <time>{{ blog.published_date }}</time>
+                </div>
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">{{ blog.title }}</h1>
+
+            <!-- Article Body -->
+            <div class="prose max-w-none">
+                <p class="lead">{{ blog.content | safe }}</p>
+            </div>
+
+        </div>
+    </article>
+</main>
+{% endblock content %}

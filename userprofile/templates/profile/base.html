@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohammad Hasan Imam - {% block title %}{% endblock title %}</title>
+    <meta name="description"
+        content="Professional profile of Mohammad Hasan Imam, IT Infrastructure & Smart Utility Systems Leader">
+
+    <!-- Tailwind v3 cdn link -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- font-awesome cdn link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    {% block customcss %}{% endblock customcss %}
+
+</head>
+
+<body class="bg-gray-50 font-sans">
+    {% include "profile/include/navbar.html" %}
+    {% block content %}{% endblock content %}
+    {% include "profile/include/footer.html" %}
+
+</body>
+
+
+</html>

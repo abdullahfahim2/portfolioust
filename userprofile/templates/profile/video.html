@@ -1,0 +1,29 @@
+{% extends "profile/base.html" %}
+{% block title %} Video Gallery {% endblock title %}
+
+
+{% block content %}
+<main class="pt-32">
+    <!-- Hero Section -->
+    <section class="bg-white text-black py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Video Gallery</h1>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto">Featured interviews, speeches, and professional highlights
+            </p>
+        </div>
+    </section>
+
+    <!-- Video Grid -->
+    <section class="container mx-auto px-12 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for video in videos %}
+            <div class="aspect-w-16 aspect-h-9">
+                <iframe src="{{ video.embed_url }}" title="{{ video.title }}" class="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock content %}

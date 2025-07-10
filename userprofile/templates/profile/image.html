@@ -1,0 +1,144 @@
+{% extends "profile/base.html" %}
+{% block title %}Image Gallery{% endblock %}
+
+{% block customcss %}
+<style>
+    .lightbox-img {
+        max-height: 80vh;
+        max-width: 90vw;
+        transition: transform 0.3s ease;
+    }
+
+    .lightbox-img:hover {
+        transform: scale(1.02);
+    }
+
+    #lightbox {
+        display: none;
+    }
+
+    #lightbox.active {
+        display: flex;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="pt-32">
+    <!-- Hero Section -->
+    <section class="text-black py-12">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Photo Gallery</h1>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto">A visual journey through my professional achievements
+                and memorable moments</p>
+        </div>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="gallery-grid">
+            {% for image in images %}
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition hover:scale-105 cursor-pointer gallery-item"
+                data-index="{{ forloop.counter0 }}">
+                <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="w-full h-64 object-cover"
+                    loading="lazy" data-caption="{{ image.caption }}" data-image-url="{{ image.image.url }}">
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4">
+        <div class="relative max-w-6xl w-full text-center">
+            <button id="close-lightbox"
+                class="absolute -top-12 right-0 text-white text-3xl hover:text-[#3CCBFE] transition">
+                <i class="fas fa-times"></i>
+            </button>
+            <button id="prev-btn"
+                class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-3xl p-4 hover:text-[#3CCBFE] transition">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="flex justify-center">
+                <img id="lightbox-img" src="" alt="" class="lightbox-img rounded-lg shadow-2xl">
+            </div>
+            <button id="next-btn"
+                class="absolute right-0 top-1/2 -translate-y-1/2 text-white text-3xl p-4 hover:text-[#3CCBFE] transition">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div id="lightbox-caption" class="text-white text-center mt-4 text-lg font-medium"></div>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const closeLightbox = document.getElementById('close-lightbox');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        let currentIndex = 0;
+        const images = Array.from(galleryItems).map(item => {
+            const img = item.querySelector('img');
+            return {
+                src: img.dataset.imageUrl,
+                caption: img.dataset.caption
+            };
+        });
+
+        // Open lightbox
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentIndex = index;
+                updateLightbox();
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Close lightbox
+        closeLightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Navigation
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateLightbox();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateLightbox();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = '';
+                } else if (e.key === 'ArrowLeft') {
+                    currentIndex = (currentIndex - 1 + images.length) % images.length;
+                    updateLightbox();
+                } else if (e.key === 'ArrowRight') {
+                    currentIndex = (currentIndex + 1) % images.length;
+                    updateLightbox();
+                }
+            }
+        });
+
+        function updateLightbox() {
+            const currentImage = images[currentIndex];
+            lightboxImg.src = currentImage.src;
+            lightboxCaption.textContent = currentImage.caption;
+        }
+    });
+</script>
+
+{% endblock content %}
